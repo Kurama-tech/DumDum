@@ -54,7 +54,7 @@ class _LoginState extends ConsumerState<Login> {
     if(loading){
       return const LoadingScreen();
     }
-    
+
     if(!loading && isOTP.isOtpScreen){
       return OtpScreen();
     }
@@ -96,6 +96,7 @@ class _LoginState extends ConsumerState<Login> {
                   child: Column(
                     children: [
                       TextFormField(
+                        autofocus: true,
                         controller: _phoneController,
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
@@ -107,7 +108,7 @@ class _LoginState extends ConsumerState<Login> {
                           if (value == null || value.isEmpty) {
                             return 'Phone Cannot Be Empty';
                           }
-                          
+
                         },
                       ),
                       const SizedBox(
@@ -118,7 +119,7 @@ class _LoginState extends ConsumerState<Login> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           FilledButton(
-                           
+
                             onPressed: () {
                               if(_formKey.currentState!.validate()){
 
@@ -127,29 +128,29 @@ class _LoginState extends ConsumerState<Login> {
                                 loading0.setloading();
 
                                var instance = ref.read(authRepositoryProvider).instance;
-                               
+
                                instance.verifyPhoneNumber(
                                 phoneNumber: '+91${_phoneController.text.trim()}',
                                 verificationCompleted: (authCred) async {
 
                                   await instance.signInWithCredential(authCred);
                                   loading0.stoploading();
-                                }, 
+                                },
                                 verificationFailed: (e){
                                   loading0.stoploading();
                                   throw AuthException(e.message!);
-                                }, 
+                                },
                                 codeSent: (vid, resend){
                                   loading0.stoploading();
                                   ref.read(resendProvider.notifier).setresend(resend!);
                                   ref.read(phoneNumberProvider.notifier).setphone(_phoneController.text.trim());
                                   ref.read(verificationIdProvider.notifier).setVid(vid);
                                   ref.read(otpinputProvider.notifier).setOtpScreen();
-                                }, 
+                                },
                                 codeAutoRetrievalTimeout: (timeout){},
-                                
+
                                 );
-                               
+
                               }
                             },
                             child: const Text(

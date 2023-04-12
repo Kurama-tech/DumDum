@@ -1,4 +1,5 @@
 import 'package:dumdum/screens/profilescreen.dart';
+import 'package:dumdum/screens/registration_screen.dart';
 import 'package:dumdum/state/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,6 +36,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     Profile(),
     Anouncements(),
     History(),
+    Registation(),
   ];
 
   void _onItemTapped(int index) {
@@ -77,15 +79,18 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             icon: const Icon(Icons.search)),
         actions: const [DarkModeSwitcher(), Logout()],
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(backgroundColor: Colors.black,
         elevation: 4.0,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+          BottomNavigationBarItem(backgroundColor: Colors.black,
               icon: Icon(Icons.account_circle), label: 'Profile'),
-          BottomNavigationBarItem(
+          BottomNavigationBarItem(backgroundColor: Colors.black,
               icon: Badge(label: Text('5'), child: Icon(Icons.campaign)),
               label: 'Anouncement'),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
+          BottomNavigationBarItem(backgroundColor: Colors.black,icon: Icon(Icons.history), label: 'History'),
+          BottomNavigationBarItem(backgroundColor: Colors.black,
+              icon: Icon(Icons.app_registration), label: 'Registration',),
+
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -94,7 +99,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       floatingActionButton: _selectedIndex != 0
           ? Container()
           : FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+
+              },
               child: const Icon(Icons.add_a_photo),
             ),
     ); // This trailing comma makes auto-formatting nicer for build methods.
