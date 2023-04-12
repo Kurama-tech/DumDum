@@ -36,7 +36,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     Profile(),
     Anouncements(),
     History(),
-    Registation(),
   ];
 
   void _onItemTapped(int index) {
@@ -79,17 +78,17 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             icon: const Icon(Icons.search)),
         actions: const [DarkModeSwitcher(), Logout()],
       ),
-      bottomNavigationBar: BottomNavigationBar(backgroundColor: Colors.black,
+      bottomNavigationBar: BottomNavigationBar(
         elevation: 4.0,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(backgroundColor: Colors.black,
+          BottomNavigationBarItem(
               icon: Icon(Icons.account_circle), label: 'Profile'),
-          BottomNavigationBarItem(backgroundColor: Colors.black,
+          BottomNavigationBarItem(
               icon: Badge(label: Text('5'), child: Icon(Icons.campaign)),
               label: 'Anouncement'),
-          BottomNavigationBarItem(backgroundColor: Colors.black,icon: Icon(Icons.history), label: 'History'),
-          BottomNavigationBarItem(backgroundColor: Colors.black,
-              icon: Icon(Icons.app_registration), label: 'Registration',),
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
+
+
 
         ],
         currentIndex: _selectedIndex,

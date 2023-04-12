@@ -1,6 +1,9 @@
+import 'package:dumdum/repository/home_repository.dart';
 import 'package:dumdum/screens/home.dart';
 import 'package:dumdum/screens/login.dart';
 import 'package:dumdum/screens/otpscreen.dart';
+import 'package:dumdum/screens/registration_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -12,16 +15,44 @@ class AuthChecker extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
+    final authRepository = ref.watch(authRepositoryProvider);
+    final homeRepositoryProvider = Provider((ref) => HomeRepository());
 
-    return authState.when(
-        data: (user) {
-          if (user != null) return const MyHomePage(title: 'DumDum');
-          return const Login();//OtpScreen('hhhh');
+    final homeRepository = ref.watch(homeRepositoryProvider);
+
+    final User? user1 = FirebaseAuth.instance.currentUser;
+
+    return FutureBuilder(
+      future: authState.when(
+        data: (user) async {
+          if (user1 != null) {
+            final Uid = user1.uid;
+            final userStatus = await homeRepository.fetchAndSetCategory(Uid);
+
+            if (user != null && userStatus != null) {
+              return const MyHomePage(title: 'DumDum');
+            } else if (userStatus == null) {
+              return const Registation();
+            }
+          }
+          return const Login();
         },
-        loading: () => const SplashScreen(),
-        error: (e, trace) => const Login());//OtpScreen('hhhh'));
+        loading: () =>  Future.value(const SplashScreen()),
+        error: (e, trace) => Future.value(const Login()),
+      ),
+      builder: (context, AsyncSnapshot<Widget> snapshot) {
+        if (snapshot.hasData) {
+          return snapshot.data!;
+        } else {
+          return const SplashScreen();
+        }
+      },
+    );
   }
 }
+
+
+
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
