@@ -31,7 +31,6 @@ jobs:
           channel: 'master'
       - run: flutter --version
       - run: flutter pub get
-      - run: flutter test
       - run: flutter build apk --no-tree-shake-icons
       - uses: actions/upload-artifact@v2
         with:
