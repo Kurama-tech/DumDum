@@ -1,3 +1,4 @@
+import 'package:dumdum/providers/register_provider.dart';
 import 'package:dumdum/repository/home_repository.dart';
 import 'package:dumdum/screens/home.dart';
 import 'package:dumdum/screens/login.dart';
@@ -8,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../providers/authprovider.dart';
-
 class AuthChecker extends ConsumerWidget {
   const AuthChecker({Key? key}) : super(key: key);
 
@@ -19,6 +19,11 @@ class AuthChecker extends ConsumerWidget {
     final homeRepositoryProvider = Provider((ref) => HomeRepository());
 
     final homeRepository = ref.watch(homeRepositoryProvider);
+    final uidProvider = Provider((ref) => FirebaseAuth.instance.currentUser?.uid);
+
+
+    final reg = ref.watch(RegisterProvider.provider);
+
 
     final User? user1 = FirebaseAuth.instance.currentUser;
 
@@ -27,17 +32,18 @@ class AuthChecker extends ConsumerWidget {
         data: (user) async {
           if (user1 != null) {
             final Uid = user1.uid;
-            final userStatus = await homeRepository.fetchAndSetCategory(Uid);
+            final userStatus = await homeRepository.getUserbyID(Uid);
+            print(userStatus);
 
-            if (user != null && userStatus != null) {
-              return const MyHomePage(title: 'DumDum');
-            } else if (userStatus == null) {
+            if (userStatus == null) {
               return const Registation();
+            } else if (user1 != null) {
+              return const MyHomePage(title: "");
             }
           }
           return const Login();
         },
-        loading: () =>  Future.value(const SplashScreen()),
+        loading: () => Future.value(const SplashScreen()),
         error: (e, trace) => Future.value(const Login()),
       ),
       builder: (context, AsyncSnapshot<Widget> snapshot) {
@@ -50,9 +56,6 @@ class AuthChecker extends ConsumerWidget {
     );
   }
 }
-
-
-
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
