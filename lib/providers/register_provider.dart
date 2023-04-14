@@ -1,16 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:dumdum/screens/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../repository/home_repository.dart';
 
-import 'package:http/http.dart' as http;
 
 class RegisterProvider with ChangeNotifier {
   final User? user1 = FirebaseAuth.instance.currentUser;
@@ -84,6 +80,10 @@ class RegisterProvider with ChangeNotifier {
     photos = filepath;
     print(photos);
     AddUser(context);
+    notifyListeners();
+  }
+
+  emptyNotify()async {
     notifyListeners();
   }
 

@@ -3,23 +3,13 @@ import 'dart:io';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:dumdum/providers/register_provider.dart';
 import 'package:dumdum/screens/home.dart';
-import 'package:dumdum/screens/multiimage.dart';
 import 'package:flutter/material.dart';
-import 'package:dumdum/providers/authprovider.dart';
 import 'package:dumdum/providers/loadingprovider.dart';
-import 'package:dumdum/providers/optinputprovider.dart';
-import 'package:dumdum/providers/vidprovider.dart';
 import 'package:dumdum/screens/loadingscreen.dart';
-import 'package:dumdum/screens/otpscreen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sms_autofill/sms_autofill.dart';
 
-import '../repository/auth_repository.dart';
 import '../state/login_controller.dart';
 import '../state/login_state.dart';
 import 'package:http/http.dart' as http;
@@ -36,7 +26,6 @@ class _RegistationState extends ConsumerState<Registation> {
   final ImagePicker _picker = ImagePicker();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _phoneController = TextEditingController();
   var vid = '';
 
   @override
@@ -117,7 +106,7 @@ class _RegistationState extends ConsumerState<Registation> {
 
             child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.only(left: 20,right: 20,top:0,bottom: 0),
+                padding: const EdgeInsets.only(left: 20,right: 20,top:0,bottom: 0),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,7 +146,7 @@ class _RegistationState extends ConsumerState<Registation> {
                                     ))
                               ],
                             ),
-                            SizedBox(height: 20,),
+                            const SizedBox(height: 20,),
 
 
                             Container(
@@ -176,8 +165,8 @@ class _RegistationState extends ConsumerState<Registation> {
                             ),
                             Visibility(
                               visible: reg.nameError,
-                              child: Column(
-                                children: const [
+                              child: const Column(
+                                children: [
                                   SizedBox(
                                     height: 5,
                                   ),
@@ -211,8 +200,8 @@ class _RegistationState extends ConsumerState<Registation> {
                             ),
                             Visibility(
                               visible: reg.companyNameControllerError,
-                              child: Column(
-                                children: const [
+                              child: const Column(
+                                children: [
                                   SizedBox(
                                     height: 5,
                                   ),
@@ -282,7 +271,7 @@ class _RegistationState extends ConsumerState<Registation> {
                                   ),
 
                                 ])),
-                            SizedBox(height: 10,),
+                            const SizedBox(height: 10,),
 
                             Container(
                               width: width,
@@ -300,8 +289,8 @@ class _RegistationState extends ConsumerState<Registation> {
                             ),
                             Visibility(
                               visible: reg.busniess_categoryControllerError,
-                              child: Column(
-                                children: const [
+                              child: const Column(
+                                children: [
                                   SizedBox(
                                     height: 5,
                                   ),
@@ -335,8 +324,8 @@ class _RegistationState extends ConsumerState<Registation> {
                             ),
                             Visibility(
                               visible: reg.phoneControllerError,
-                              child: Column(
-                                children: const [
+                              child: const Column(
+                                children: [
                                   SizedBox(
                                     height: 5,
                                   ),
@@ -370,8 +359,8 @@ class _RegistationState extends ConsumerState<Registation> {
                             ),
                             Visibility(
                               visible: reg.locationControllerError,
-                              child: Column(
-                                children: const [
+                              child: const Column(
+                                children: [
                                   SizedBox(
                                     height: 5,
                                   ),
@@ -385,7 +374,7 @@ class _RegistationState extends ConsumerState<Registation> {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
 
@@ -405,8 +394,8 @@ class _RegistationState extends ConsumerState<Registation> {
                             ),
                             Visibility(
                               visible: reg.proprietorControllerError,
-                              child: Column(
-                                children: const [
+                              child: const Column(
+                                children: [
                                   SizedBox(
                                     height: 5,
                                   ),
@@ -475,13 +464,14 @@ class _MyImagePickerState extends ConsumerState<MyImagePicker> {
   Widget build(BuildContext context) {
     final reg = ref.watch(RegisterProvider.provider);
     void selectImages() async {
-      final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+      final List<XFile> selectedImages = await imagePicker.pickMultiImage();
       if (selectedImages!.isNotEmpty) {
         imageFileList!.addAll(selectedImages);
       }
       setState(() {
       });
     }
+    
     Future<void> _uploadImages() async {
       final url = Uri.parse('http://64.227.144.134:8002/api/upload');
       final request = http.MultipartRequest('POST', url);
@@ -520,13 +510,13 @@ class _MyImagePickerState extends ConsumerState<MyImagePicker> {
                     selectImages();
                   }
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GridView.builder(
                         itemCount: imageFileList!.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3
                         ),
                         itemBuilder: (BuildContext context, int index) {
@@ -549,7 +539,7 @@ class _MyImagePickerState extends ConsumerState<MyImagePicker> {
                     _uploadImages();
                     AlertDialog(
                       title: const Text('DumDum!'),
-                      content: Text(""),
+                      content: const Text(""),
                       actions: <Widget>[
                         ElevatedButton(
                           style: ButtonStyle(
@@ -568,7 +558,7 @@ class _MyImagePickerState extends ConsumerState<MyImagePicker> {
                         )
                       ],
                     );
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>MyHomePage(title:"")));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>const MyHomePage(title:"")));
 
 
                     // reg.AddUser(context);

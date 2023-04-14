@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 Dio dio = Dio();
@@ -10,32 +11,33 @@ String url = 'http://64.227.144.134:8002/api/';
 class HomeRepository {
   getUserbyID(String uid) async {
     Dio dio = Dio();
-    final URL = url + "users/${uid}";
+    final uRL = "${url}users/$uid";
     try {
-      final response = await dio.get(URL);
+      final response = await dio.get(uRL);
 
-      print(response.data);
+      if (kDebugMode) {
+        print(response.data);
+      }
 
       try {
-        if (response.data == null)
+        if (response.data == null) {
           // print(response.body);
 
           return null;
-
-        else
+        } else {
           //print(response.body);
 
           return response.data;
+        }
 
 
       } catch (error) {
-        throw (error);
+        rethrow;
       }
 
 
-      return response.data;
     } catch (error) {
-      throw (error);
+      rethrow;
     }
   }
 
@@ -49,8 +51,8 @@ class HomeRepository {
     String userid1,
     String status,
     String location,
-    String busniess_category,
-    String busniess_type,
+    String busniessCategory,
+    String busniessType,
   ) async {
     final url = Uri.parse('http://64.227.144.134:8002/api/user');
     print(images[0]);
@@ -73,14 +75,14 @@ class HomeRepository {
           'userid': userid,
           'status': status,
           'location': location,
-          'busniess_category': busniess_category,
-          'busniess_type': busniess_type,
+          'busniess_category': busniessCategory,
+          'busniess_type': busniessType,
         }),
       );
 
       return response.body;
     } catch (error) {
-      throw (error);
+      rethrow;
     }
   }
 

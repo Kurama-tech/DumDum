@@ -1,13 +1,10 @@
-import 'package:dumdum/main.dart';
 import 'package:dumdum/providers/authprovider.dart';
 import 'package:dumdum/providers/loadingprovider.dart';
 import 'package:dumdum/providers/optinputprovider.dart';
 import 'package:dumdum/providers/vidprovider.dart';
 import 'package:dumdum/screens/loadingscreen.dart';
 import 'package:dumdum/screens/otpscreen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
