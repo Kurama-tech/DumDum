@@ -1,9 +1,9 @@
+import 'package:dumdum/firebase_options.dart';
 import 'package:dumdum/providers/darkmodeprovider.dart';
 import 'package:dumdum/screens/auth_checker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +14,8 @@ void main() async {
 final darkModeProvider = StateNotifierProvider<DarkModeNotifier, bool>(
   (ref) => DarkModeNotifier(),
 );
+
+
 
 class MyApp extends HookConsumerWidget {
   const MyApp({super.key});

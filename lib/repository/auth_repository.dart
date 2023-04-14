@@ -51,6 +51,23 @@ class AuthRepository {
   Future<void> signOut() async {
     await _auth.signOut();
   }
+
+  Future<String?> getUserUID() async {
+    try {
+      final User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        final uid = user.uid;
+        return uid;
+      } else {
+        // No user is signed in
+        return null;
+      }
+    } catch (e) {
+      print('Error getting user UID: $e');
+      return null;
+    }
+  }
 }
 
 class AuthException implements Exception {

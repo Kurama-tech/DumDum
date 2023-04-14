@@ -1,4 +1,5 @@
 import 'package:dumdum/screens/profilescreen.dart';
+import 'package:dumdum/screens/registration_screen.dart';
 import 'package:dumdum/state/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -86,6 +87,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               icon: Badge(label: Text('5'), child: Icon(Icons.campaign)),
               label: 'Anouncement'),
           BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
+
+
+
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -94,7 +98,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       floatingActionButton: _selectedIndex != 0
           ? Container()
           : FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+
+              },
               child: const Icon(Icons.add_a_photo),
             ),
     ); // This trailing comma makes auto-formatting nicer for build methods.
