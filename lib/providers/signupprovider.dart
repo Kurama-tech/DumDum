@@ -1,4 +1,5 @@
 
+import 'package:dumdum/model/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,6 +12,18 @@ class SignupProviderNotifier extends ChangeNotifier {
   late SignupModel data;
 
   set(SignupModel v){
+    data = v;
+    notifyListeners();
+  }
+
+}
+
+
+class ProfileProviderNotifier extends ChangeNotifier {
+
+  late UserProfile data;
+
+  set(UserProfile v){
     data = v;
     notifyListeners();
   }
@@ -39,5 +52,9 @@ final signedupProvider = ChangeNotifierProvider<SignedUpNotifier>(
 
 final signupProvider = ChangeNotifierProvider<SignupProviderNotifier>(
   (ref) => SignupProviderNotifier(),
+);
+
+final profileProvider = ChangeNotifierProvider<ProfileProviderNotifier>(
+  (ref) => ProfileProviderNotifier(),
 );
 

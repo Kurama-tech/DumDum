@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:dumdum/providers/register_provider.dart';
 import 'package:dumdum/providers/signupprovider.dart';
+
 import 'package:dumdum/repository/home_repository.dart';
-import 'package:dumdum/screens/SignupChecker.dart';
 import 'package:dumdum/screens/home.dart';
 import 'package:dumdum/screens/login.dart';
 import 'package:dumdum/screens/otpscreen.dart';
@@ -11,9 +13,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../model/profile.dart';
 import '../providers/authprovider.dart';
 class AuthChecker extends ConsumerWidget {
   const AuthChecker({Key? key}) : super(key: key);
+
+  UserProfile getProfile(dynamic response){
+    print('here');
+  
+
+        
+    var data = response;
+    print(data[0].runtimeType);
+    UserProfile userProfile = UserProfile.fromJson(data[0]);
+    return userProfile;
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,10 +48,14 @@ class AuthChecker extends ConsumerWidget {
         data: (user) async {
           if (user != null) {
             final userStatus = await homeRepository.getUserbyID(user.uid);
+
             if (userStatus == null) {
               ref.read(signedupProvider.notifier).unset();
               return const Signup();
             }else {
+              var data = getProfile(userStatus);
+              print(data);
+              ref.read(profileProvider.notifier).set(data);
               ref.read(signedupProvider.notifier).set();
               return const MyHomePage(title: 'DumDum');
             }

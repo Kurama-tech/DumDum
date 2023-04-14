@@ -1,3 +1,4 @@
+import 'package:dumdum/providers/signupprovider.dart';
 import 'package:dumdum/screens/editprofile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +22,9 @@ class _ProfileState extends ConsumerState<Profile>
 
   @override
   Widget build(BuildContext context) {
+
+    var userProfile = ref.watch(profileProvider);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -29,20 +33,20 @@ class _ProfileState extends ConsumerState<Profile>
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
-                Chip(label: Text('UID: 12339455')),
+              children: [
+                Chip(label: Text(userProfile.data.userId)),
               ],
             ),
-            const Padding(
-                padding: EdgeInsets.only(top: 3, bottom: 3),
+            Padding(
+                padding: const EdgeInsets.only(top: 3, bottom: 3),
                 child: CircleAvatar(
                   radius: 60.0,
                   backgroundImage: NetworkImage(
-                      'https://images.pexels.com/photos/16168011/pexels-photo-16168011.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'),
+                      userProfile.data.avatar),
                 )),
-            const Text(
-              "Sawood",
-              style: TextStyle(
+            Text(
+              userProfile.data.name,
+              style: const TextStyle(
                 fontWeight: FontWeight.w800,
                 fontSize: 30.0,
               ),
@@ -128,8 +132,12 @@ class _ProfileState extends ConsumerState<Profile>
 class Details extends ConsumerWidget {
   const Details({super.key});
 
+  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var userProfile = ref.watch(profileProvider);
+
+
     return Padding(
         padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
@@ -159,7 +167,7 @@ class Details extends ConsumerWidget {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
-                        hintText: 'XYZ'),
+                        hintText: userProfile.data.company),
                   ),
                 ],
               ),
@@ -189,7 +197,7 @@ class Details extends ConsumerWidget {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
-                        hintText: 'Ramesh'),
+                        hintText: userProfile.data.proprietor),
                   ),
                 ],
               ),
@@ -219,7 +227,7 @@ class Details extends ConsumerWidget {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
-                        hintText: '+91 8123675897'),
+                        hintText: userProfile.data.phone),
                   ),
                 ],
               ),
@@ -249,7 +257,7 @@ class Details extends ConsumerWidget {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
-                        hintText: 'Channapatna'),
+                        hintText: userProfile.data.location),
                   ),
                 ],
               ),
@@ -264,10 +272,11 @@ class Images extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var userProfile = ref.watch(profileProvider);
     return GridView.builder(
       gridDelegate:
           const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-      itemCount: 10,
+      itemCount: userProfile.data.images.length,
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -275,9 +284,9 @@ class Images extends ConsumerWidget {
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(20.0),
-              image: const DecorationImage(
+              image: DecorationImage(
                 image: NetworkImage(
-                    'https://images.pexels.com/photos/1003914/pexels-photo-1003914.jpeg'),
+                    userProfile.data.images[index]),
                 fit: BoxFit.cover,
               ),
             ),
